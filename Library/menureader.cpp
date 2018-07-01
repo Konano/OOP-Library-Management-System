@@ -51,7 +51,7 @@ void menureader::on_pushButton_37_clicked() //歸還書籍
 
     if (WanttoReturn != nullptr)
     {
-        if (db.Check_Borrow(NowUser, WanttoReturn))
+        if (db.Check_Borrow(NowUser, WanttoReturn) == false)
             QMessageBox::information(NULL,"Failed","您并未借阅该图书，归还失败。");
         else
         {
@@ -76,7 +76,7 @@ void menureader::on_pushButton_36_clicked() //查找書籍
     BookList.clear();
 
     db.Search_Book(BookList, name, writer, publisher, ISBN, 0);
-    ui->tableWidget->clear();
+    ui->tableWidget->clearContents();
     for(int i=0; i<(int)BookList.size(); i++)
     {
         QString avanumb=QString::number(BookList[i]->AvailableTotal());
@@ -86,5 +86,29 @@ void menureader::on_pushButton_36_clicked() //查找書籍
         ui->tableWidget->setItem(i,2,new QTableWidgetItem(BookList[i]->GetPublisher()));
         ui->tableWidget->setItem(i,3,new QTableWidgetItem(BookList[i]->GetISBN()));
         ui->tableWidget->setItem(i,4,new QTableWidgetItem(lentnum + " / " + avanumb));
+    }
+}
+
+void menureader::on_pushButton_42_clicked()
+{
+    static vector<Record*> RecordList;
+    RecordList.clear();
+
+    db.Search_Record(RecordList, NowUser->GetID(), 0, 0);
+    ui->tableWidget_2->clearContents();
+    for(int i=0; i<(int)RecordList.size(); i++)
+    {
+        ui->tableWidget_2->setItem(i,0,new QTableWidgetItem(db.Find_Book_ID(RecordList[i]->GetBookID())->GetName()));
+        ui->tableWidget_2->setItem(i,1,new QTableWidgetItem(QString::fromStdString(RecordList[i]->GetType())));
+    }
+
+    RecordList.clear();
+
+    db.Search_Apply(RecordList, NowUser->GetID(), 0, 0);
+    ui->tableWidget_3->clearContents();
+    for(int i=0; i<(int)RecordList.size(); i++)
+    {
+        ui->tableWidget_3->setItem(i,0,new QTableWidgetItem(db.Find_Book_ID(RecordList[i]->GetBookID())->GetName()));
+        ui->tableWidget_3->setItem(i,1,new QTableWidgetItem(QString::fromStdString(RecordList[i]->GetType())));
     }
 }

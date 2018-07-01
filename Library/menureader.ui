@@ -26,7 +26,7 @@
     <bool>false</bool>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <property name="tabBarAutoHide">
     <bool>false</bool>
@@ -179,20 +179,20 @@
       </rect>
      </property>
      <property name="text">
-      <string>借閱情況</string>
+      <string>借阅记录</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_33">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>520</x>
        <y>20</y>
-       <width>61</width>
+       <width>51</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>審核情況</string>
+      <string>待审核</string>
      </property>
     </widget>
     <widget class="QTableWidget" name="tableWidget_2">
@@ -203,6 +203,9 @@
        <width>301</width>
        <height>441</height>
       </rect>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
      <row>
       <property name="text">
@@ -306,12 +309,12 @@
      </row>
      <column>
       <property name="text">
-       <string>姓名</string>
+       <string>书籍</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>ID</string>
+       <string>操作</string>
       </property>
      </column>
     </widget>
@@ -324,6 +327,9 @@
        <height>441</height>
       </rect>
      </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
      <row>
       <property name="text">
        <string>1</string>
@@ -426,14 +432,27 @@
      </row>
      <column>
       <property name="text">
-       <string>姓名</string>
+       <string>书籍</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>ID</string>
+       <string>操作</string>
       </property>
      </column>
+    </widget>
+    <widget class="QPushButton" name="pushButton_42">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>20</y>
+       <width>90</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>更新</string>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_11">
@@ -688,21 +707,16 @@
        <string>可出借 / 已出借</string>
       </property>
      </column>
-     <column>
-      <property name="text">
-       <string/>
-      </property>
-     </column>
     </widget>
    </widget>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>20</x>
      <y>10</y>
-     <width>574</width>
-     <height>31</height>
+     <width>588</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">

@@ -56,12 +56,12 @@ public:
     // 书的检索，将检索的信息 push_back 到 List 中，未限定的条件，表现为字符串为空串 & int 为 0
     void Search_Reader(vector<Reader*> &List, const QString name, const int ID) const;
     // 读者的检索，将检索的信息 push_back 到 List 中，未限定的条件，表现为字符串为空串 & int 为 0
-    void Search_Record(vector<Record*> &List, const int readerID, const int bookID, const int type, const int year, const int month, const int day) const;
+    void Search_Record(vector<Record*> &List, const int readerID, const int bookID, const int type) const;
     // 记录的检索，将检索的信息 push_back 到 List 中，未限定的条件，表现为字符串为空串 & int 为 0
+    void Search_Apply(vector<Record*> &List, const int readerID, const int bookID, const int type) const;
+    // 未处理申请的检索，将检索的信息 push_back 到 List 中，未限定的条件，表现为字符串为空串 & int 为 0
     void Search_unReturnBook(vector<Record*> &List, const int readerID) const;
     // 未归还书的检索，将检索的信息 push_back 到 List 中，未限定的条件，表现为字符串为空串 & int 为 0
-    void Search_unDealApply(vector<Record*> &List, const int readerID) const;
-    // 未处理申请的检索，将检索的信息 push_back 到 List 中，未限定的条件，表现为字符串为空串 & int 为 0
 
     void Add_Book(const QString name, const QString writer, const QString publisher, const QString ISBN, const int total);
     // 添加书本
@@ -100,8 +100,6 @@ private:
     // 添加记录
     void Delete_Apply();
     // 删除申请
-
-    // ======================================= End
 
 };
 

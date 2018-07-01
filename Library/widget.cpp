@@ -31,30 +31,21 @@ Widget::~Widget()
 
 void Widget::on_pushButton_clicked()
 {
-    if(ui->radioButton->isChecked())
+    if ((NowUser = db.Find_User_Name(ui->lineEdit->text())) != NULL && NowUser->CheckPassword(ui->lineEdit_2->text()))
     {
-        if ((NowUser = db.Find_User_Name(ui->lineEdit->text())) != NULL && NowUser->CheckPassword(ui->lineEdit_2->text()))
+        if (NowUser->isAdmin())
+        {
+            menuadmin* m_admin = new menuadmin();
+            m_admin->show();
+            this->hide();
+        }
+        else
         {
             menureader* m_reader = new menureader();
             m_reader->show();
             this->hide();
         }
-        else
-        {
-            QMessageBox::information(NULL,"ERROR","密碼錯誤");
-        }
     }
-    else if(ui->radioButton_2->isChecked())
-    {
-        if ((NowUser = db.Find_User_Name(ui->lineEdit->text())) != NULL && NowUser->CheckPassword(ui->lineEdit_2->text()) && NowUser->isAdmin())
-        {
-            menuadmin* ma = new menuadmin();
-            ma->show();
-            this->hide();
-        }
-        else
-        {
-            QMessageBox::information(NULL,"ERROR","密碼錯誤");
-        }
-    }
+    else
+        QMessageBox::information(NULL,"ERROR","密碼錯誤");
 }

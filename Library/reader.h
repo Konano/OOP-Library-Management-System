@@ -6,8 +6,6 @@
 #include "main.h"
 #include "user.h"
 
-//using namespace std;
-
 class Reader : public User
 {
     int max_borrow;			// 最大可借阅数
