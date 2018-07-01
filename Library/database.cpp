@@ -346,20 +346,25 @@ User* Database::Find_User_ID(const int ID) const
 //     }
 // }
 
-// void Database::Add_Reader(const QString name, const QString password, const int max_borrow)
-// {
-//     Reader *user = new Reader(0, name, password, max_borrow);
-//     List_Reader[user->GetID()] = user;
-// }
+void Database::Add_Reader(const QString name, const QString password, const int max_borrow)
+{
+    Reader *user = new Reader(0, name, password, max_borrow);
+    List_User[user->GetID()] = user;
+}
 
-// void Database::Delete_Reader(const int ID)
-// {
-//     map<int,User*>::iterator iter;
-//     iter = List_User.find(ID);
-//     //List_User[ID]->Modifyalive();
-//     List_User.erase(iter);
+void Database::Delete_User(const int ID)
+{
+    map<int,User*>::iterator iter;
+    iter = List_User.find(ID);
+    List_User.erase(iter);
+}
 
-// }
+void Database::Delete_Book(const int ID)
+{
+    map<int,Book*>::iterator iter;
+    iter = List_Book.find(ID);
+    List_Book.erase(iter);
+}
 
 // void Database::Modify_Reader(const int ID, const QString name, const int max_borrow)
 // {

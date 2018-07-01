@@ -28,12 +28,8 @@ public:
     QString GetPublisher() const { return publisher; }
 
     void Lent() { available_number--; }				// 图书被借出
-    void Return() { available_number++; } 		// 图书被归还
-    void Modify (const int &number);	           // 图书信息修改
-    void Modifyname (const QString &namee);
-    void Modifywriter (const QString &writerr);
-    void Modifypublisher (const QString &publisherr);
-    void ModifyISBN (const QString &ISBNN);
+    void Return() { available_number++; } 		    // 图书被归还
+    void Modify (const QString &name, const QString &writer, const QString &publisher, const QString &ISBN, const int &number);
 };
 
 #endif // BOOK_H

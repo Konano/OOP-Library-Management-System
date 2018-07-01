@@ -24,7 +24,7 @@ public:
 
     void Borrow() { now_borrow++; }
     void Giveback() { now_borrow--; }
-    void Modify (const int &max_borrow);
+    void Modify(const QString username, const QString password, const int max_borrow);
 };
 
 

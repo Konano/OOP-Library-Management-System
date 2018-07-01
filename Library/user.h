@@ -23,7 +23,7 @@ public:
     virtual bool isAdmin() const = 0; // 是否是管理员
     virtual int CanBorrow() const = 0; // 是否能借书
 
-    void ModifyName(const QString new_name); // 修改姓名
+    void Modify(const QString new_name, const QString new_pwd);
     bool CheckPassword(const QString &password) const; // 检查密码是否正确
 };
 

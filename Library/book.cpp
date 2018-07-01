@@ -2,24 +2,12 @@
 
 int Book::total = 0;
 
-void Book::Modify(const int &number)
+void Book::Modify(const QString &name, const QString &writer, const QString &publisher, const QString &ISBN, const int &number)
 {
-    this->number = number;
-}
-void Book::Modifyname(const QString &namee)
-{
-    this->name = namee;
-}
-void Book::Modifywriter(const QString &writerr)
-{
-    this->writer = writerr;
-}
-void Book::Modifypublisher(const QString &publisherr)
-{
-    this->publisher = publisherr;
-}
-void Book::ModifyISBN(const QString &ISBNN)
-{
-    this->ISBN = ISBNN;
+	this->name = name;
+	this->writer = writer;
+	this->publisher = publisher;
+	this->ISBN = ISBN;
+	this->number = number;
 }
 

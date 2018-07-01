@@ -71,8 +71,8 @@ public:
 
     void Delete_Book(const int ID);
     // 删除书本
-    void Delete_Reader(const int ID);//未删除借阅信息
-    // 删除读者
+    void Delete_User(const int ID);
+    // 删除用户
 
     void Modify_Book(const int ID, const QString name, const QString writer, const QString publisher, const QString ISBN, const int total);
     // 修改书本
@@ -90,18 +90,6 @@ public:
     // 检查这本书是否正被某读者借阅中
     bool Check_Book_ISBN(const QString ISBN) const;
     // 检查是否存在此 ISBN 对应的书
-    bool Check_Book_Exist(const int id) const;
-    // 通过 ID 检查书本是否存在
-    // bool Check_Reader_Exist(const int id) const;
-    // 通过 ID 检查读者是否存在
-
-private:
-
-    void Add_Record();
-    // 添加记录
-    void Delete_Apply();
-    // 删除申请
-
 };
 
 #endif // DATABASE_H
