@@ -26,7 +26,7 @@
     <bool>false</bool>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>1</number>
    </property>
    <property name="tabBarAutoHide">
     <bool>false</bool>
@@ -46,19 +46,6 @@
      </property>
      <property name="text">
       <string>借閱書籍</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_45">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>200</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ISBN</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_32">
@@ -84,6 +71,32 @@
       <string>確認</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_47">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>210</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>(不包括短横)</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_48">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>190</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ISBN</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_10">
     <attribute name="title">
@@ -92,8 +105,8 @@
     <widget class="QLabel" name="label_42">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>200</y>
+       <x>250</x>
+       <y>190</y>
        <width>31</width>
        <height>31</height>
       </rect>
@@ -136,6 +149,19 @@
      </property>
      <property name="text">
       <string>歸還書籍</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_46">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>210</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>(不包括短横)</string>
      </property>
     </widget>
    </widget>
@@ -443,7 +469,7 @@
     <widget class="QLabel" name="label_38">
      <property name="geometry">
       <rect>
-       <x>260</x>
+       <x>380</x>
        <y>30</y>
        <width>81</width>
        <height>31</height>
@@ -456,8 +482,8 @@
     <widget class="QLabel" name="label_39">
      <property name="geometry">
       <rect>
-       <x>480</x>
-       <y>30</y>
+       <x>380</x>
+       <y>80</y>
        <width>81</width>
        <height>31</height>
       </rect>
@@ -471,7 +497,7 @@
       <rect>
        <x>100</x>
        <y>30</y>
-       <width>131</width>
+       <width>241</width>
        <height>31</height>
       </rect>
      </property>
@@ -481,7 +507,7 @@
       <rect>
        <x>100</x>
        <y>80</y>
-       <width>131</width>
+       <width>241</width>
        <height>31</height>
       </rect>
      </property>
@@ -489,9 +515,9 @@
     <widget class="QLineEdit" name="lineEdit_28">
      <property name="geometry">
       <rect>
-       <x>320</x>
+       <x>440</x>
        <y>30</y>
-       <width>131</width>
+       <width>241</width>
        <height>31</height>
       </rect>
      </property>
@@ -499,34 +525,11 @@
     <widget class="QLineEdit" name="lineEdit_29">
      <property name="geometry">
       <rect>
-       <x>540</x>
-       <y>30</y>
-       <width>131</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_30">
-     <property name="geometry">
-      <rect>
-       <x>320</x>
+       <x>440</x>
        <y>80</y>
-       <width>131</width>
+       <width>241</width>
        <height>31</height>
       </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_40">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>80</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ID</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_36">
@@ -550,6 +553,15 @@
        <width>711</width>
        <height>331</height>
       </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
      <row>
       <property name="text">
@@ -673,17 +685,12 @@
      </column>
      <column>
       <property name="text">
-       <string>ID</string>
+       <string>可出借 / 已出借</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>新增欄位</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>可出借數量</string>
+       <string/>
       </property>
      </column>
     </widget>

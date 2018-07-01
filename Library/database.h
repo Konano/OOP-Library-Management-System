@@ -29,12 +29,12 @@ class Database
 
     bool FILE_Input_String(QString &str, QString &s);
     bool FILE_Input_Int(QString &str, int &val);
-    bool FILE_Input_Book(ifstream &fin);
-    bool FILE_Input_Reader(ifstream &fin);
-    bool FILE_Input_Admin(ifstream &fin);
-    bool FILE_Input_Apply(ifstream &fin);
-    bool FILE_Input_Record(ifstream &fin);
-//
+    void FILE_Input_Book(ifstream &fin);
+    void FILE_Input_Reader(ifstream &fin);
+    void FILE_Input_Admin(ifstream &fin);
+    void FILE_Input_Apply(ifstream &fin);
+    void FILE_Input_Record(ifstream &fin);
+
     void FILE_Output_Book(){};
     void FILE_Output_Reader(){};
     void FILE_Output_Admin(){};
@@ -45,6 +45,8 @@ public:
 
     Database();
     ~Database();
+
+    void Init();
 
     // ======================================= Wait to add
 

@@ -24,8 +24,3 @@ QString User::GetName()const
 {
     return username;
 }
-
-void User::Modifyalive()
-{
-    alive = 0;
-}

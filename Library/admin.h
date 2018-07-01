@@ -11,8 +11,8 @@ using namespace std;
 class Admin : public User
 {
 public:
-    Admin(const QString username, const QString password, const bool alive = true)
-        : User(username, password, alive) {}
+    Admin(const QString username, const QString password)
+        : User(username, password) {}
     virtual ~Admin(){}
     bool isAdmin() const{ return true; }
     int CanBorrow() const{ return 0; }

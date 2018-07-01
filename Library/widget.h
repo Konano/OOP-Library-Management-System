@@ -10,8 +10,8 @@
 #include <menuadmin.h>
 #include <menureader.h>
 #include <QPalette>
-#include<QTimer>
-#include<QTime>
+#include <QTimer>
+#include <QTime>
 #include <QDateTime>
 #include "main.h"
 #include "Book.h"

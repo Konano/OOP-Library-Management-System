@@ -1,12 +1,14 @@
 #include "menuadmin.h"
 #include "ui_menuadmin.h"
-static Database db;
+
+extern Database db;
+extern User* NowUser;
+
 menuadmin::menuadmin(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::menuadmin)
 {
     ui->setupUi(this);
-
 }
 
 menuadmin::~menuadmin()

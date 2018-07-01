@@ -5,139 +5,159 @@ using namespace std;
 inline bool Database::FILE_Input_String(QString &str, QString &s)
 {
     static int pos;
+    // cout << str.toStdString() << endl;
     pos = str.indexOf(',');
     if (pos > 0)
-        s = str.left(pos), str = str.left(pos+1);
+        s = str.left(pos), str = str.right(str.length()-pos-1);
     else
         s = str, str = "";
+    // cout << str.toStdString() << endl;
     return s != "";
 }
 
 inline bool Database::FILE_Input_Int(QString &str, int &val)
 {
     static int pos;
+    // cout << str.toStdString() << endl;
     pos = str.indexOf(',');
-    std::string s = str.toStdString();
     if (pos > 0)
-        val = atoi(s.substr(0,pos).c_str()), s = s.substr(0,pos+1);
+        val = atoi(str.toStdString().substr(0,pos).c_str()), str = str.right(str.length()-pos-1);
     else
-        val = atoi(s.c_str()), s = "";
+        val = atoi(str.toStdString().c_str()), str = "";
+    // cout << str.toStdString() << endl;
     return true;
 }
 
-bool Database::FILE_Input_Book(ifstream &fin)
+void Database::FILE_Input_Book(ifstream &fin)
 {
     static QString name, writer, publisher, ISBN;
-    static int ava_number, alive;
+    static int number, ava_number;
 
     static QString str;
     static char str_c[FILE_Input_Size];
 
-    if (fin.getline(str_c, FILE_Input_Size)) str = str_c; else return false;
-    if (!FILE_Input_String(str, name)) return false;
-    if (!FILE_Input_String(str, writer)) return false;
-    if (!FILE_Input_String(str, publisher)) return false;
-    if (!FILE_Input_String(str, ISBN)) return false;
-    if (!FILE_Input_Int(str, ava_number)) return false;
-    if (!FILE_Input_Int(str, alive)) return false;
+    while (true)
+    {
+        fin.getline(str_c, FILE_Input_Size);
+        // puts(str_c.c_str());
+        if (strlen(str_c)>1) str = str_c; else return;
+        if (!FILE_Input_String(str, name)) continue;
+        if (!FILE_Input_String(str, writer)) continue;
+        if (!FILE_Input_String(str, publisher)) continue;
+        if (!FILE_Input_String(str, ISBN)) continue;
+        if (!FILE_Input_Int(str, number)) continue;
+        if (!FILE_Input_Int(str, ava_number)) continue;
 
-    Book* book = new Book(name, writer, publisher, ISBN, ava_number, alive == 1);
-    List_Book[book->GetID()] = book;
-    Check_ISBN[ISBN]=true;
+        //cout << number << ava_number << endl;
 
-    return true;
+        Book* book = new Book(name, writer, publisher, ISBN, number, ava_number);
+        List_Book[book->GetID()] = book;
+        Check_ISBN[ISBN]=true;
+    }
 }
 
-bool Database::FILE_Input_Reader(ifstream &fin)
+void Database::FILE_Input_Reader(ifstream &fin)
 {
     static QString name, pwd;
-    static int maxn, nown, alive;
-
-    static QString str;
-    char str_c[FILE_Input_Size];
-
-    if (fin.getline(str_c, FILE_Input_Size)) str = str_c; else return false;
-    if (!FILE_Input_String(str, name)) return false;
-    if (!FILE_Input_String(str, pwd)) return false;
-    if (!FILE_Input_Int(str, maxn)) return false;
-    if (!FILE_Input_Int(str, nown)) return false;
-    if (!FILE_Input_Int(str, alive)) return false;
-
-    Reader* user = new Reader(name, pwd, maxn, nown, alive == 1);
-    List_User[user->GetID()] = user;
-
-    return true;
-}
-
-
-bool Database::FILE_Input_Admin(ifstream &fin)
-{
-    static QString name, pwd;
-    static int alive;
+    static int maxn, nown;
 
     static QString str;
     static char str_c[FILE_Input_Size];
 
-    if (fin.getline(str_c, FILE_Input_Size)) str = str_c; else return false;
-    if (!FILE_Input_String(str, name)) return false;
-    if (!FILE_Input_String(str, pwd)) return false;
-    if (!FILE_Input_Int(str, alive)) return false;
+    while (true)
+    {
+        fin.getline(str_c, FILE_Input_Size);
+        // puts(str_c.c_str());
+        if (strlen(str_c)>1) str = str_c; else return;
+        if (!FILE_Input_String(str, name)) continue;
+        if (!FILE_Input_String(str, pwd)) continue;
+        if (!FILE_Input_Int(str, maxn)) continue;
+        if (!FILE_Input_Int(str, nown)) continue;
 
-    Admin* user = new Admin(name, pwd, alive == 1);
-    List_User[user->GetID()] = user;
-
-    return true;
+        Reader* user = new Reader(name, pwd, maxn, nown);
+        List_User[user->GetID()] = user;
+    }
 }
 
 
-bool Database::FILE_Input_Apply(ifstream &fin)
+void Database::FILE_Input_Admin(ifstream &fin)
+{
+    static QString name, pwd;
+
+    static QString str;
+    static char str_c[FILE_Input_Size];
+
+    while (true)
+    {
+        fin.getline(str_c, FILE_Input_Size);
+        // puts(str_c.c_str());
+        if (strlen(str_c)>1) str = str_c; else return;
+        if (!FILE_Input_String(str, name)) continue;
+        if (!FILE_Input_String(str, pwd)) continue;
+
+        Admin* user = new Admin(name, pwd);
+        List_User[user->GetID()] = user;
+
+        // cout << name.toStdString() << pwd.toStdString() << endl;
+    }
+}
+
+
+void Database::FILE_Input_Apply(ifstream &fin)
 {
     static QString type;
     static int readerID, bookID, time;
 
     static QString str;
-    static char str_c[FILE_Input_Size];
+    static string str_c;
 
-    if (fin.getline(str_c, FILE_Input_Size)) str = str_c; else return false;
-    if (!FILE_Input_String(str, type)) return false;
-    if (!FILE_Input_Int(str, readerID)) return false;
-    if (!FILE_Input_Int(str, bookID)) return false;
-    if (!FILE_Input_Int(str, time)) return false;
+    while (true)
+    {
+        getline(fin, str_c);
+        // puts(str_c.c_str());
+        if (str_c.length()>1) str = str_c.c_str(); else return;
+        if (!FILE_Input_String(str, type)) continue;
+        if (!FILE_Input_Int(str, readerID)) continue;
+        if (!FILE_Input_Int(str, bookID)) continue;
+        if (!FILE_Input_Int(str, time)) continue;
 
-    List_Apply.push_back(new Apply((type == "Borrow" ? 1 : (type == "Return" ? 2 : 0)), readerID, bookID, (time_t)time));
-
-    return true;
+        List_Apply.push_back(new Apply((type == "Borrow" ? 1 : (type == "Return" ? 2 : 0)),
+                                        readerID, bookID, (time_t)time));
+    }
 }
 
-bool Database::FILE_Input_Record(ifstream &fin)
+void Database::FILE_Input_Record(ifstream &fin)
 {
     static int readerID, bookID, time;
 
     static QString str;
-    static char str_c[FILE_Input_Size];
+    static string str_c;
 
-    if (fin.getline(str_c, FILE_Input_Size)) str = str_c; else return false;
-    if (!FILE_Input_Int(str, readerID)) return false;
-    if (!FILE_Input_Int(str, bookID)) return false;
-    if (!FILE_Input_Int(str, time)) return false;
+    while (true)
+    {
+        getline(fin, str_c);
+        // puts(str_c.c_str());
+        if (str_c.length()>1) str = str_c.c_str(); else return;
+        if (!FILE_Input_Int(str, readerID)) continue;
+        if (!FILE_Input_Int(str, bookID)) continue;
+        if (!FILE_Input_Int(str, time)) continue;
 
-    List_Record.push_back(new Record(readerID, bookID, (time_t)time));
-
-    return true;
+        List_Record.push_back(new Record(readerID, bookID, (time_t)time));
+    }
 }
 
-Database::Database()
+void Database::Init()
 {
     ifstream book_fin("book.csv");
-    while (FILE_Input_Book(book_fin));
+    FILE_Input_Book(book_fin);
     ifstream reader_fin("reader.csv");
-    while (FILE_Input_Reader(reader_fin));
+    FILE_Input_Reader(reader_fin);
     ifstream admin_fin("admin.csv");
-    while (FILE_Input_Admin(admin_fin));
+    FILE_Input_Admin(admin_fin);
     ifstream apply_fin("apply.csv");
-    while (FILE_Input_Apply(apply_fin));
+    FILE_Input_Apply(apply_fin);
     ifstream record_fin("record.csv");
-    while (FILE_Input_Record(record_fin));
+    FILE_Input_Record(record_fin);
 }
 
 Database::~Database()
@@ -179,32 +199,23 @@ Book* Database::Find_Book_ISBN(const QString ISBN) const
     }
     return nullptr;
 }
-void Database::Search_Book(vector<Book*> &List, const QString name, const QString writer, const QString publisher, const QString ISBN, const int ID) const{
+void Database::Search_Book(vector<Book*> &List, const QString name, const QString writer, const QString publisher, const QString ISBN, const int ID) const
+{
     map<int,Book*>::const_iterator iter;
-  if(ID==0){
-      //這裡還有一點問題
+    if(ID == 0)
+    {
         for(iter = List_Book.begin();iter!=List_Book.end();iter++){
             if(iter->second->GetISBN()==ISBN||iter->second->GetWriter()==writer||iter->second->GetName()==name||iter->second->GetPublisher()==publisher)
                 List.push_back(iter->second);
         }
-
-   }
+    }
     else
     {
         int count = List_Book.count(ID);
         if(count!=0)
             List.push_back(List_Book.at(ID));
-
     }
-
-   // iter = List_Book.begin();
-   // while(iter!=List_Book.end()){  //如果这里输入了错误的资讯??
-   //     if(List_Book[iter]->ID==ID||List_Book[iter]->name==name||List_Book[iter]->writer==writer||List_Book[iter]->publisher==publisher||List_Book[iter]->ISBN==ISBN){
-   //         List.push_back(List_Book[iter]);
-   //     }
-   //     iter++;
-   //}
-
+    cout << writer.toStdString() << List.size() << endl;
 }
 
 void Database::Add_Book(const QString name, const QString writer, const QString publisher, const QString ISBN, const int total){
@@ -291,7 +302,7 @@ void Database::Delete_Reader(const int ID)
 {
     map<int,User*>::iterator iter;
     iter = List_User.find(ID);
-    List_User[ID]->Modifyalive();
+    //List_User[ID]->Modifyalive();
     List_User.erase(iter);
 
 }
@@ -325,3 +336,5 @@ void Database::Add_Apply_Borrow(const User* user, const Book* WanttoBorrow)
  {
 
  }
+
+ Database::Database() {}

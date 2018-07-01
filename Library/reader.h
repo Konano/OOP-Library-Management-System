@@ -13,8 +13,8 @@ class Reader : public User
     int max_borrow;			// 最大可借阅数
     int now_borrow;			// 现借阅数
 public:
-    Reader(const QString username, const QString password, const int max_borrow, const int now_borrow = 0, const bool alive = true)
-        : User(username, password, alive), max_borrow(max_borrow), now_borrow(now_borrow) {}
+    Reader(const QString username, const QString password, const int max_borrow, const int now_borrow = 0)
+        : User(username, password), max_borrow(max_borrow), now_borrow(now_borrow) {}
     bool isAdmin() const { return false; }
     virtual ~Reader(){}
     void Borrow();			// 借书
