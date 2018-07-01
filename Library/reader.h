@@ -19,11 +19,11 @@ public:
     virtual ~Reader(){}
     void Borrow();			// 借书
     void GiveBack();		// 还书
-    void Modify(const int &max_borrow);			// 修改读者信息
-    int NowBorrow() { return now_borrow; }
+    void Modify (const int &max_borrow);			// 修改读者信息
+    int NowBorrow() const { return now_borrow; }
     int CanBorrow() const { return max_borrow - now_borrow; }
-    QString info_SingleLine();
-    QString info_DoubleLines();
+    // QString info_SingleLine();
+    // QString info_DoubleLines();
 };
 
 

@@ -24,3 +24,5 @@ QString User::GetName()const
 {
     return username;
 }
+
+User* NowUser;

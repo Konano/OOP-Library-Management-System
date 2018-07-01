@@ -16,7 +16,6 @@ SOURCES += main.cpp\
         widget.cpp \
     menuadmin.cpp \
     book.cpp \
-    admin.cpp \
     reader.cpp \
     database.cpp \
     menureader.cpp \

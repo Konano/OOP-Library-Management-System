@@ -9,11 +9,18 @@ class Record
 {
     static int total;
     int ID, readerID, bookID;
-    time_t time;
+    int type;					// 1:借阅, 2:归还
+    // time_t time;
 public:
-    Record(const int readerID, const int bookID, const time_t time)
-        : ID(++total), readerID(readerID), bookID(bookID), time(time) {}
-    QString info();
+    Record(const int readerID, const int bookID, const string typestr) //, const time_t time
+        : ID(++total), readerID(readerID), bookID(bookID) //, time(time)
+       		{
+       			if (typestr == "BORROW") type=1;
+       			if (typestr == "RETURN") type=2;
+       		}
+    int GetReaderID() const { return readerID; }
+    int GetBookID() const { return bookID; }
+    string GetType() const;
 };
 
 #endif // RECORD_H

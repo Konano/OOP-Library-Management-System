@@ -29,7 +29,6 @@ private slots:
     void on_pushButton_36_clicked();
     void on_pushButton_37_clicked();
     void on_pushButton_38_clicked();
-    void getsignal(User* us);
 
 private:
     Ui::menureader *ui;

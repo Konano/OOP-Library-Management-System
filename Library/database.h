@@ -6,7 +6,6 @@
 #include "user.h"
 #include "reader.h"
 #include "admin.h"
-#include "apply.h"
 #include "record.h"
 #include <QString>
 #include <qdebug.h>
@@ -43,7 +42,7 @@ class Database
 
 public:
 
-    Database();
+    Database() {}
     ~Database();
 
     void Init();
@@ -73,10 +72,8 @@ public:
     // 添加书本
     void Add_Reader(const QString name, const QString password, const int max_borrow);
     // 添加读者
-    void Add_Apply_Borrow(const User* user, const Book* WanttoBorrow);
-    // 添加借阅申请
-    void Add_Apply_Return(const User* user, const Book* WanttoBorrow);
-    // 添加归还申请
+    void Add_Apply(const string typestr, const User* user, const Book* WanttoBorrow);
+    // 添加申请
 
     void Delete_Book(const int ID);
     // 删除书本

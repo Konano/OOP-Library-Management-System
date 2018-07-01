@@ -17,26 +17,23 @@ menureader::~menureader()
     delete ui;
 }
 
-void menureader::getsignal(User* us)
-{
-    user=us;
-}
-
 void menureader::on_pushButton_38_clicked() //借閱書籍
 {
+    static QString ISBN;
+    ISBN = ui->lineEdit_32->text();
+
     static Book* WanttoBorrow;
-    Widget* widget = new Widget();
-    connect(widget,SIGNAL(isignal(User*)),this,SLOT(getsignal(User*)));
-    static QString ISBN=ui->lineEdit_32->text();
     WanttoBorrow = db.Find_Book_ISBN(ISBN);
-    if (WanttoBorrow != 0) {
+
+    if (WanttoBorrow != nullptr)
+    {
         if (WanttoBorrow->AvailableTotal() == 0)
             QMessageBox::information(NULL,"Failed","当前图书已皆被借出，借阅失败。");
-        else if (user->CanBorrow() == 0)
+        else if (NowUser->CanBorrow() == 0)
             QMessageBox::information(NULL,"Failed","您当前借阅书籍数量已达到最大借阅数，借阅失败。");
         else
         {
-            db.Add_Apply_Borrow(user, WanttoBorrow);
+            db.Add_Apply("BORROW", NowUser, WanttoBorrow);
             QMessageBox::information(NULL,"Success","提交借阅申请成功！");
         }
     }
@@ -48,15 +45,17 @@ void menureader::on_pushButton_37_clicked() //歸還書籍
 {
     static QString ISBN;
     ISBN = ui->lineEdit_31->text();
+
     static Book* WanttoReturn;
     WanttoReturn = db.Find_Book_ISBN(ISBN);
+
     if (WanttoReturn != nullptr)
     {
-        if (db.Check_Borrow(user, WanttoReturn))
+        if (db.Check_Borrow(NowUser, WanttoReturn))
             QMessageBox::information(NULL,"Failed","您并未借阅该图书，归还失败。");
         else
         {
-            db.Add_Apply_Return(user, WanttoReturn);
+            db.Add_Apply("RETURN", NowUser, WanttoReturn);
             QMessageBox::information(NULL,"Success","提交归还申请成功！");
         }
     }

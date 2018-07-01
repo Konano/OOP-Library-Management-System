@@ -109,20 +109,19 @@ void Database::FILE_Input_Apply(ifstream &fin)
     static int readerID, bookID, time;
 
     static QString str;
-    static string str_c;
+    static char str_c[FILE_Input_Size];
 
     while (true)
     {
-        getline(fin, str_c);
+        fin.getline(str_c, FILE_Input_Size);
         // puts(str_c.c_str());
-        if (str_c.length()>1) str = str_c.c_str(); else return;
+        if (strlen(str_c)>1) str = str_c; else return;
         if (!FILE_Input_String(str, type)) continue;
         if (!FILE_Input_Int(str, readerID)) continue;
         if (!FILE_Input_Int(str, bookID)) continue;
-        if (!FILE_Input_Int(str, time)) continue;
+        // if (!FILE_Input_Int(str, time)) continue;
 
-        List_Apply.push_back(new Apply((type == "Borrow" ? 1 : (type == "Return" ? 2 : 0)),
-                                        readerID, bookID, (time_t)time));
+        List_Apply.push_back(new Apply(type, readerID, bookID));
     }
 }
 
@@ -131,18 +130,18 @@ void Database::FILE_Input_Record(ifstream &fin)
     static int readerID, bookID, time;
 
     static QString str;
-    static string str_c;
+    static char str_c[FILE_Input_Size];
 
     while (true)
     {
-        getline(fin, str_c);
+        fin.getline(str_c, FILE_Input_Size);
         // puts(str_c.c_str());
-        if (str_c.length()>1) str = str_c.c_str(); else return;
+        if (strlen(str_c)>1) str = str_c; else return;
         if (!FILE_Input_Int(str, readerID)) continue;
         if (!FILE_Input_Int(str, bookID)) continue;
-        if (!FILE_Input_Int(str, time)) continue;
+        // if (!FILE_Input_Int(str, time)) continue;
 
-        List_Record.push_back(new Record(readerID, bookID, (time_t)time));
+        List_Record.push_back(new Record(readerID, bookID); // , (time_t)time)
     }
 }
 
@@ -185,29 +184,29 @@ Database::~Database()
 
 Book* Database::Find_Book_ID(const int ID) const
 {
-    int count = List_Book.count(ID);
-    Book* book =List_Book.at(ID);
-    if(count!=0) return book;
-    return nullptr;
+    // int count = List_Book.count(ID);
+    // Book* book = List_Book.at(ID);
+    // if(count!=0) return book;
+    // return nullptr;
 }
+
 Book* Database::Find_Book_ISBN(const QString ISBN) const
 {
     map<int,Book*>::const_iterator iter;
-    for(iter=List_Book.begin(); iter!=List_Book.end();iter++){
-        if(iter->second->GetISBN()==ISBN)
+    for(iter=List_Book.begin(); iter!=List_Book.end(); iter++)
+        if (iter->second->GetISBN() == ISBN)
             return iter->second;
-    }
     return nullptr;
 }
+
 void Database::Search_Book(vector<Book*> &List, const QString name, const QString writer, const QString publisher, const QString ISBN, const int ID) const
 {
     map<int,Book*>::const_iterator iter;
     if(ID == 0)
     {
-        for(iter = List_Book.begin();iter!=List_Book.end();iter++){
-            if(iter->second->GetISBN()==ISBN||iter->second->GetWriter()==writer||iter->second->GetName()==name||iter->second->GetPublisher()==publisher)
+        for(iter=List_Book.begin(); iter!=List_Book.end(); iter++)
+            if(iter->second->GetISBN()==ISBN || iter->second->GetWriter()==writer || iter->second->GetName()==name || iter->second->GetPublisher()==publisher)
                 List.push_back(iter->second);
-        }
     }
     else
     {
@@ -218,23 +217,27 @@ void Database::Search_Book(vector<Book*> &List, const QString name, const QStrin
     cout << writer.toStdString() << List.size() << endl;
 }
 
-void Database::Add_Book(const QString name, const QString writer, const QString publisher, const QString ISBN, const int total){
-    Book* book = new Book(name, writer, publisher, ISBN, total,1);
+void Database::Add_Book(const QString name, const QString writer, const QString publisher, const QString ISBN, const int total)
+{
+    Book* book = new Book(name, writer, publisher, ISBN, total, total);
     List_Book[book->GetID()] = book;
 }
 
-void Database::Delete_Book(const int ID){
+void Database::Delete_Book(const int ID)
+{
     List_Book.erase(ID);
+    //////////////////////////////////////////////////////////////////////////////
 }
 
-void Database::Modify_Book(const int ID, const QString name, const QString writer, const QString publisher, const QString ISBN, const int total){
+void Database::Modify_Book(const int ID, const QString name, const QString writer, const QString publisher, const QString ISBN, const int total)
+{
     List_Book[ID]->Modify(total);
     List_Book[ID]->Modifyname(name);
     List_Book[ID]->Modifywriter(writer);
     List_Book[ID]->Modifypublisher(publisher);
     List_Book[ID]->ModifyISBN(ISBN);
-
 }
+
 bool Database::Check_Book_ISBN(const QString ISBN) const
 {
     int count = Check_ISBN.count(ISBN);
@@ -324,17 +327,17 @@ bool Database::Check_Reader_Exist(const int id) const
 // User Part End
 bool Database::Check_Borrow(const User* user, const Book* WanttoReturn) const
 {
-
+    int borrow_or_not = 0;
+    for(int i=0; i<(int)List_Record.size(); i++)
+        if (List_Record[i]->GetReaderID() == user->GetID() && List_Record[i]->GetBookID() == WanttoReturn->GetID())
+            borrow_or_not += (List_Record[i]->GetType() == "BORROW"),
+            borrow_or_not -= (List_Record[i]->GetType() == "RETURN");
+    return borrow_or_not > 0;
 }
-void Database::Add_Apply_Borrow(const User* user, const Book* WanttoBorrow)
+
+void Database::Add_Apply(const string typestr, const User* user, const Book* WanttoBorrow)
 {
-
+    List_Apply.push_back(new Apply(typestr, user->GetID(), WanttoBorrow->GetID()));
 }
 
-
- void Database::Add_Apply_Return(const User* user, const Book* WanttoBorrow)
- {
-
- }
-
- Database::Database() {}
+Database::Database()
