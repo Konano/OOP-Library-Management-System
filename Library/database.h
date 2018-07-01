@@ -20,7 +20,6 @@
 class Database
 {
     map<int,User*>		List_User;
-    map<int,Reader*>    List_Reader;
     map<int,Book*>		List_Book;
     map<QString,bool>   Check_ISBN;
     vector<Record*>		List_Apply;
@@ -44,11 +43,11 @@ public:
 
     // ======================================= Wait to add
 
-    // Record* GetApply(const int id) const;
-    // int GetApplyTotal() const;
+    Record* GetApply(const int id) const;
+    int GetApplyTotal() const { return (int)List_Apply.size(); }
 
     User* Find_User_Name(const QString &name) const;		// 由名字查找 User，若查不到则返回 nullprt
-    Reader* Find_Reader_ID(const int ID) const;			// 由 ID 查找 Reader，若查不到则返回 nullprt
+    User* Find_User_ID(const int ID) const;			// 由 ID 查找 Reader，若查不到则返回 nullprt
     Book* Find_Book_ID(const int ID) const;				// 由 ID 查找 Book，若查不到则返回 nullprt
     Book* Find_Book_ISBN(const QString ISBN) const;		// 由 ISBN 查找 Book，若查不到则返回 nullprt
 
@@ -80,6 +79,8 @@ public:
     void Modify_Reader(const int ID, const QString name, const int max_borrow);
     // 修改读者
 
+    void Apply_Delete(const int id);
+    // 删除申请并转成记录
     void Apply_Accept(const int id);
     // 批准申请
     void Apply_Reject(const int id);
@@ -91,7 +92,7 @@ public:
     // 检查是否存在此 ISBN 对应的书
     bool Check_Book_Exist(const int id) const;
     // 通过 ID 检查书本是否存在
-    bool Check_Reader_Exist(const int id) const;
+    // bool Check_Reader_Exist(const int id) const;
     // 通过 ID 检查读者是否存在
 
 private:

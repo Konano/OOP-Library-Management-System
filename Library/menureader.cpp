@@ -85,7 +85,7 @@ void menureader::on_pushButton_36_clicked() //查找書籍
         ui->tableWidget->setItem(i,1,new QTableWidgetItem(BookList[i]->GetWriter()));
         ui->tableWidget->setItem(i,2,new QTableWidgetItem(BookList[i]->GetPublisher()));
         ui->tableWidget->setItem(i,3,new QTableWidgetItem(BookList[i]->GetISBN()));
-        ui->tableWidget->setItem(i,4,new QTableWidgetItem(lentnum + " / " + avanumb));
+        ui->tableWidget->setItem(i,4,new QTableWidgetItem(avanumb + " / " + lentnum));
     }
 }
 

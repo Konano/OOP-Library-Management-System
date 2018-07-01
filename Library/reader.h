@@ -22,8 +22,8 @@ public:
     int MaxBorrow() const { return max_borrow; }
     int CanBorrow() const { return max_borrow - now_borrow; }
 
-    void Borrow();
-    void Return();
+    void Borrow() { now_borrow++; }
+    void Giveback() { now_borrow--; }
     void Modify (const int &max_borrow);
 };
 

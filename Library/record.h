@@ -33,7 +33,7 @@ public:
     string GetType() const;
 
     void Reject() { reject = true; }
-    void Accept();
+    void Accept() { accept = true; }
 };
 
 #endif // RECORD_H

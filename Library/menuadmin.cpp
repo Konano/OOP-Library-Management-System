@@ -66,6 +66,51 @@ void menuadmin::on_pushButton_41_clicked() //查找書籍
     }
 }
 
+void menuadmin::tableWidget_4_update()
+{
+    static vector<Record*> RecordList;
+    RecordList.clear();
+
+    db.Search_Apply(RecordList, 0, 0, 0);
+    ui->tableWidget_4->clearContents();
+    for(int i=0; i<(int)RecordList.size(); i++)
+    {
+        cout << db.Find_User_ID(RecordList[i]->GetReaderID()) << endl;
+        ui->tableWidget_4->setItem(i,0,new QTableWidgetItem(db.Find_User_ID(RecordList[i]->GetReaderID())->GetName()));
+        ui->tableWidget_4->setItem(i,1,new QTableWidgetItem(db.Find_Book_ID(RecordList[i]->GetBookID())->GetName()));
+        ui->tableWidget_4->setItem(i,2,new QTableWidgetItem(QString::fromStdString(RecordList[i]->GetType())));
+    }
+}
+
+void menuadmin::on_pushButton_42_clicked()
+{
+    tableWidget_4_update();
+}
+
+void menuadmin::on_pushButton_37_clicked()
+{
+    int pid = ui->lineEdit_27->text().toInt() - 1;
+    if (pid < 0 || pid >= db.GetApplyTotal())
+    {
+        QMessageBox::information(NULL,"Fail","PID 非法。");
+        return;
+    }
+    db.Apply_Accept(pid);
+    tableWidget_4_update();
+}
+
+void menuadmin::on_pushButton_38_clicked()
+{
+    int pid = ui->lineEdit_27->text().toInt() - 1;
+    if (pid < 0 || pid >= db.GetApplyTotal())
+    {
+        QMessageBox::information(NULL,"Fail","PID 非法。");
+        return;
+    }
+    db.Apply_Reject(pid);
+    tableWidget_4_update();
+}
+
 // //warning改改改 先顯示再讀入修改
 // void menuadmin::on_pushButton_29_clicked() //修改書籍
 // {

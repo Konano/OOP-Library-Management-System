@@ -197,7 +197,7 @@ void Database::FILE_Output_Record()
 {
     ofstream fou("record.csv");
 
-    for(vector<Record*>::iterator it = List_Apply.begin(); it != List_Apply.end(); it++)
+    for(vector<Record*>::iterator it = List_Record.begin(); it != List_Record.end(); it++)
     {
         fou << (*it)->GetType() << ","
             << ((*it)->BoolDeal() ? ((*it)->BoolAccept() ? "ACCEPT" : "REJECT") : "UNDEAL") << ","
@@ -205,7 +205,8 @@ void Database::FILE_Output_Record()
             << (*it)->GetBookID() << endl;
         delete (*it);
     }
-    for(vector<Record*>::iterator it = List_Record.begin(); it != List_Record.end(); it++)
+
+    for(vector<Record*>::iterator it = List_Apply.begin(); it != List_Apply.end(); it++)
     {
         fou << (*it)->GetType() << ","
             << ((*it)->BoolDeal() ? ((*it)->BoolAccept() ? "ACCEPT" : "REJECT") : "UNDEAL") << ","
@@ -319,13 +320,12 @@ User* Database::Find_User_Name(const QString &name) const
     return nullptr;
 }
 
-// Reader* Database::Find_Reader_ID(const int ID) const
-// {
-//     int count = List_Reader.count(ID);
-//     Reader* user=List_Reader.at(ID);
-//     if(count != 0) return user;
-//     return nullptr;
-// }
+User* Database::Find_User_ID(const int ID) const
+{
+    if (List_User.count(ID)) return List_User.at(ID);
+    puts("Fuck");
+    return nullptr;
+}
 
 // void Database::Search_Reader(vector<Reader*> &List, const QString name, const int ID) const
 // {
@@ -368,10 +368,10 @@ User* Database::Find_User_Name(const QString &name) const
 //     return;
 // }
 
-bool Database::Check_Reader_Exist(const int id) const
-{
-    return List_Reader.count(id);
-}
+// bool Database::Check_Reader_Exist(const int id) const
+// {
+//     return List_Reader.count(id);
+// }
 
 bool Database::Check_Borrow(const User* user, const Book* WanttoReturn) const
 {
@@ -386,4 +386,41 @@ bool Database::Check_Borrow(const User* user, const Book* WanttoReturn) const
 void Database::Add_Apply(const string typestr, const User* user, const Book* WanttoBorrow)
 {
     List_Apply.push_back(new Record(typestr, "UNDEAL", user->GetID(), WanttoBorrow->GetID()));
+}
+
+void Database::Apply_Delete(const int id)
+{
+    List_Record.push_back(List_Apply[id]);
+    for(int i=id; i<(int)List_Apply.size()-1; i++)
+        List_Apply[i] = List_Apply[i+1];
+    List_Apply.pop_back();
+}
+
+void Database::Apply_Accept(const int id)
+{
+    Reader* rd = dynamic_cast<Reader*>(Find_User_ID(List_Apply[id]->GetReaderID()));
+    Book* bk = Find_Book_ID(List_Apply[id]->GetBookID());
+
+    if (List_Apply[id]->GetType() == "BORROW")
+        rd -> Borrow(), bk -> Lent();
+    else
+        rd -> Giveback(), bk -> Return();
+    List_Apply[id]->Accept();
+    Apply_Delete(id);
+
+    if (rd -> CanBorrow() == 0)
+        for(int i=0; i<(int)List_Apply.size(); i++)
+            if (List_Apply[i]->GetReaderID() == rd->GetID())
+                Apply_Reject(i--);
+
+    if (bk -> AvailableTotal() == 0)
+        for(int i=0; i<(int)List_Apply.size(); i++)
+            if (List_Apply[i]->GetBookID() == bk->GetID())
+                Apply_Reject(i--);
+}
+
+void Database::Apply_Reject(const int id)
+{
+    List_Apply[id]->Reject();
+    Apply_Delete(id);
 }
