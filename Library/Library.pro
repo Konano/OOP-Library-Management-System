@@ -20,7 +20,6 @@ SOURCES += main.cpp\
     database.cpp \
     menureader.cpp \
     user.cpp \
-    apply.cpp \
     record.cpp
 
 HEADERS  += widget.h \
@@ -32,7 +31,6 @@ HEADERS  += widget.h \
     main.h \
     menureader.h \
     user.h \
-    apply.h \
     record.h
 
 FORMS    += widget.ui \

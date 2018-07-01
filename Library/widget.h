@@ -18,7 +18,6 @@
 #include "User.h"
 #include "Reader.h"
 #include "Admin.h"
-#include "Apply.h"
 #include "Record.h"
 #include "Database.h"
 

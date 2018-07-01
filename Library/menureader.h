@@ -1,8 +1,8 @@
 #ifndef MENUREADER_H
 #define MENUREADER_H
+
 #include "book.h"
 #include "database.h"
-#include "apply.h"
 #include "admin.h"
 #include "user.h"
 #include "reader.h"
@@ -10,8 +10,6 @@
 #include <QMessageBox>
 #include <QPoint>
 #include <QMouseEvent>
-
-
 
 namespace Ui {
 class menureader;

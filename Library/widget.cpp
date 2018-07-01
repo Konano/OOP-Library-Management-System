@@ -11,7 +11,6 @@
 #include "User.h"
 #include "Reader.h"
 #include "Admin.h"
-#include "Apply.h"
 #include "Record.h"
 #include "Database.h"
 
@@ -23,7 +22,6 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    db.Init();
 }
 
 Widget::~Widget()

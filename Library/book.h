@@ -15,8 +15,18 @@ class Book
     int number;					// 总馆藏数
     int available_number;		// 现可借册数
 public:
-    Book(const QString name, const QString writer, const QString publisher, const QString ISBN, const int number, const int available_number) :
-        ID(++total), name(name), writer(writer), publisher(publisher), ISBN(ISBN), number(number), available_number(available_number) {}
+    Book(const int ID, const QString name, const QString writer, const QString publisher, const QString ISBN, const int number, const int available_number) :
+        ID(ID?ID:++total), name(name), writer(writer), publisher(publisher), ISBN(ISBN), number(number), available_number(available_number)
+            { total = max(total, ID); }
+
+    int GetID() const { return ID; }
+    int LentTotal() const { return number-available_number; }
+    int AvailableTotal() const { return available_number; }
+    QString GetISBN() const { return ISBN; }
+    QString GetName() const { return name; }
+    QString GetWriter() const { return writer; }
+    QString GetPublisher() const { return publisher; }
+
     void Lend();				// 图书被借出
     void ComeBack(); 			// 图书被归还
     void Modify (const int &number);	// 图书信息修改
@@ -24,15 +34,6 @@ public:
     void Modifywriter (const QString &writerr);
     void Modifypublisher (const QString &publisherr);
     void ModifyISBN (const QString &ISBNN);
-    // QString info_SingleLine();	// 图书信息（一行）
-    // QString info_DoubleLines();	// 图书信息（多行）
-    int LentTotal() const { return number-available_number; }
-    int AvailableTotal() const { return available_number; }
-    int GetID() const { return ID; }
-    QString GetISBN() const { return ISBN; }
-    QString GetName() const { return name; }
-    QString GetWriter() const { return writer; }
-    QString GetPublisher() const { return publisher; }
 };
 
 #endif // BOOK_H

@@ -23,34 +23,29 @@ class Database
     map<int,Reader*>    List_Reader;
     map<int,Book*>		List_Book;
     map<QString,bool>   Check_ISBN;
-    vector<Apply*>		List_Apply;
+    vector<Record*>		List_Apply;
     vector<Record*>		List_Record;
 
     bool FILE_Input_String(QString &str, QString &s);
     bool FILE_Input_Int(QString &str, int &val);
-    void FILE_Input_Book(ifstream &fin);
-    void FILE_Input_Reader(ifstream &fin);
-    void FILE_Input_Admin(ifstream &fin);
-    void FILE_Input_Apply(ifstream &fin);
-    void FILE_Input_Record(ifstream &fin);
+    void FILE_Input_Book();
+    void FILE_Input_Reader();
+    void FILE_Input_Admin();
+    void FILE_Input_Record();
 
-    void FILE_Output_Book(){};
-    void FILE_Output_Reader(){};
-    void FILE_Output_Admin(){};
-    void FILE_Output_Apply(){};
-    void FILE_Output_Record(){};
+    void FILE_Output_Book();
+    void FILE_Output_User();
+    void FILE_Output_Record();
 
 public:
 
-    Database() {}
+    Database();
     ~Database();
-
-    void Init();
 
     // ======================================= Wait to add
 
-    Apply* GetApply(const int id) const;
-    int GetApplyTotal() const;
+    // Record* GetApply(const int id) const;
+    // int GetApplyTotal() const;
 
     User* Find_User_Name(const QString &name) const;		// 由名字查找 User，若查不到则返回 nullprt
     Reader* Find_Reader_ID(const int ID) const;			// 由 ID 查找 Reader，若查不到则返回 nullprt
@@ -65,7 +60,7 @@ public:
     // 记录的检索，将检索的信息 push_back 到 List 中，未限定的条件，表现为字符串为空串 & int 为 0
     void Search_unReturnBook(vector<Record*> &List, const int readerID) const;
     // 未归还书的检索，将检索的信息 push_back 到 List 中，未限定的条件，表现为字符串为空串 & int 为 0
-    void Search_unDealApply(vector<Apply*> &List, const int readerID) const;
+    void Search_unDealApply(vector<Record*> &List, const int readerID) const;
     // 未处理申请的检索，将检索的信息 push_back 到 List 中，未限定的条件，表现为字符串为空串 & int 为 0
 
     void Add_Book(const QString name, const QString writer, const QString publisher, const QString ISBN, const int total);

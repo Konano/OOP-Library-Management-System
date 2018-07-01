@@ -11,16 +11,20 @@ class User
     int ID;
     QString username, password;
 public:
-    User(const QString username, const QString password)
-        : ID(++total), username(username), password(password) {}
+    User(const int ID, const QString username, const QString password)
+        : ID(ID?ID:++total), username(username), password(password)
+            { total = max(total, ID); }
     // virtual ~User() = 0;
     virtual ~User(){}
+
+    int GetID() const { return ID; }
+    QString GetName() const { return username; }
+    QString GetPwd() const { return password; }
     virtual bool isAdmin() const = 0; // 是否是管理员
     virtual int CanBorrow() const = 0; // 是否能借书
+
     void ModifyName(const QString new_name); // 修改姓名
     bool CheckPassword(const QString &password) const; // 检查密码是否正确
-    int GetID() const;
-    QString GetName() const;
 };
 
 #endif

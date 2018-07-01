@@ -28,10 +28,12 @@ inline bool Database::FILE_Input_Int(QString &str, int &val)
     return true;
 }
 
-void Database::FILE_Input_Book(ifstream &fin)
+void Database::FILE_Input_Book()
 {
+    ifstream fin("book.csv");
+
     static QString name, writer, publisher, ISBN;
-    static int number, ava_number;
+    static int id, number, ava_number;
 
     static QString str;
     static char str_c[FILE_Input_Size];
@@ -41,6 +43,7 @@ void Database::FILE_Input_Book(ifstream &fin)
         fin.getline(str_c, FILE_Input_Size);
         // puts(str_c.c_str());
         if (strlen(str_c)>1) str = str_c; else return;
+        if (!FILE_Input_Int(str, id)) continue;
         if (!FILE_Input_String(str, name)) continue;
         if (!FILE_Input_String(str, writer)) continue;
         if (!FILE_Input_String(str, publisher)) continue;
@@ -50,16 +53,18 @@ void Database::FILE_Input_Book(ifstream &fin)
 
         //cout << number << ava_number << endl;
 
-        Book* book = new Book(name, writer, publisher, ISBN, number, ava_number);
+        Book* book = new Book(id, name, writer, publisher, ISBN, number, ava_number);
         List_Book[book->GetID()] = book;
         Check_ISBN[ISBN]=true;
     }
 }
 
-void Database::FILE_Input_Reader(ifstream &fin)
+void Database::FILE_Input_Reader()
 {
+    ifstream fin("reader.csv");
+
     static QString name, pwd;
-    static int maxn, nown;
+    static int id, maxn, nown;
 
     static QString str;
     static char str_c[FILE_Input_Size];
@@ -69,20 +74,24 @@ void Database::FILE_Input_Reader(ifstream &fin)
         fin.getline(str_c, FILE_Input_Size);
         // puts(str_c.c_str());
         if (strlen(str_c)>1) str = str_c; else return;
+        if (!FILE_Input_Int(str, id)) continue;
         if (!FILE_Input_String(str, name)) continue;
         if (!FILE_Input_String(str, pwd)) continue;
         if (!FILE_Input_Int(str, maxn)) continue;
         if (!FILE_Input_Int(str, nown)) continue;
 
-        Reader* user = new Reader(name, pwd, maxn, nown);
+        Reader* user = new Reader(id, name, pwd, maxn, nown);
         List_User[user->GetID()] = user;
     }
 }
 
 
-void Database::FILE_Input_Admin(ifstream &fin)
+void Database::FILE_Input_Admin()
 {
+    ifstream fin("admin.csv");
+
     static QString name, pwd;
+    static int id;
 
     static QString str;
     static char str_c[FILE_Input_Size];
@@ -92,21 +101,21 @@ void Database::FILE_Input_Admin(ifstream &fin)
         fin.getline(str_c, FILE_Input_Size);
         // puts(str_c.c_str());
         if (strlen(str_c)>1) str = str_c; else return;
+        if (!FILE_Input_Int(str, id)) continue;
         if (!FILE_Input_String(str, name)) continue;
         if (!FILE_Input_String(str, pwd)) continue;
 
-        Admin* user = new Admin(name, pwd);
+        Admin* user = new Admin(id, name, pwd);
         List_User[user->GetID()] = user;
-
-        // cout << name.toStdString() << pwd.toStdString() << endl;
     }
 }
 
-
-void Database::FILE_Input_Apply(ifstream &fin)
+void Database::FILE_Input_Record()
 {
-    static QString type;
-    static int readerID, bookID, time;
+    ifstream fin("record.csv");
+
+    static int readerID, bookID; // , time
+    static QString type, deal;
 
     static QString str;
     static char str_c[FILE_Input_Size];
@@ -117,77 +126,102 @@ void Database::FILE_Input_Apply(ifstream &fin)
         // puts(str_c.c_str());
         if (strlen(str_c)>1) str = str_c; else return;
         if (!FILE_Input_String(str, type)) continue;
+        if (!FILE_Input_String(str, deal)) continue;
         if (!FILE_Input_Int(str, readerID)) continue;
         if (!FILE_Input_Int(str, bookID)) continue;
         // if (!FILE_Input_Int(str, time)) continue;
 
-        List_Apply.push_back(new Apply(type, readerID, bookID));
+        if (deal == "UNDEAL")
+            List_Apply.push_back(new Record(type.toStdString(), deal.toStdString(), readerID, bookID)); // , (time_t)time)
+        else
+            List_Record.push_back(new Record(type.toStdString(), deal.toStdString(), readerID, bookID)); // , (time_t)time)
     }
 }
 
-void Database::FILE_Input_Record(ifstream &fin)
+Database::Database()
 {
-    static int readerID, bookID, time;
+    FILE_Input_Book();
+    FILE_Input_Reader();
+    FILE_Input_Admin();
+    FILE_Input_Record();
+}
 
-    static QString str;
-    static char str_c[FILE_Input_Size];
+void Database::FILE_Output_Book()
+{
+    ofstream fou("book.csv");
 
-    while (true)
+    for(map<int,Book*>::iterator it = List_Book.begin(); it != List_Book.end(); it++)
     {
-        fin.getline(str_c, FILE_Input_Size);
-        // puts(str_c.c_str());
-        if (strlen(str_c)>1) str = str_c; else return;
-        if (!FILE_Input_Int(str, readerID)) continue;
-        if (!FILE_Input_Int(str, bookID)) continue;
-        // if (!FILE_Input_Int(str, time)) continue;
-
-        List_Record.push_back(new Record(readerID, bookID); // , (time_t)time)
+        Book* book = it->second;
+        fou << book->GetID() << ","
+            << book->GetName().toStdString() << ","
+            << book->GetWriter().toStdString() << ","
+            << book->GetPublisher().toStdString() << ","
+            << book->GetISBN().toStdString() << ","
+            << book->LentTotal()+book->AvailableTotal() << ","
+            << book->AvailableTotal() << endl;
+        delete book;
     }
 }
 
-void Database::Init()
+void Database::FILE_Output_User()
 {
-    ifstream book_fin("book.csv");
-    FILE_Input_Book(book_fin);
-    ifstream reader_fin("reader.csv");
-    FILE_Input_Reader(reader_fin);
-    ifstream admin_fin("admin.csv");
-    FILE_Input_Admin(admin_fin);
-    ifstream apply_fin("apply.csv");
-    FILE_Input_Apply(apply_fin);
-    ifstream record_fin("record.csv");
-    FILE_Input_Record(record_fin);
-}
-
-Database::~Database()
-{
-    FILE_Output_Book();
-    FILE_Output_Reader();
-    FILE_Output_Admin();
-    FILE_Output_Apply();
-    FILE_Output_Record();
+    ofstream f_r("reader.csv");
+    ofstream f_a("admin.csv");
 
     for(map<int,User*>::iterator it = List_User.begin(); it != List_User.end(); it++)
     {
         User* tmp = it->second;
         if (tmp->isAdmin())
-            delete dynamic_cast<Admin*>(tmp);
+        {
+            Admin* admin = dynamic_cast<Admin*>(tmp);
+            f_a << admin->GetID() << ","
+                << admin->GetName().toStdString() << ","
+                << admin->GetPwd().toStdString() << endl;
+            delete admin;
+        }
         else
-            delete dynamic_cast<Reader*>(tmp);
+        {
+            Reader* reader = dynamic_cast<Reader*>(tmp);
+            f_r << reader->GetID() << ","
+                << reader->GetName().toStdString() << ","
+                << reader->GetPwd().toStdString() << ","
+                << reader->MaxBorrow() << ","
+                << reader->NowBorrow() << endl;
+            delete reader;
+        }
     }
-    for(map<int,Book*>::iterator it = List_Book.begin(); it != List_Book.end(); it++) delete it->second;
-    for(vector<Apply*>::iterator it = List_Apply.begin(); it != List_Apply.end(); it++) delete (*it);
-    for(vector<Record*>::iterator it = List_Record.begin(); it != List_Record.end(); it++) delete (*it);
 }
 
-// Book Part(start)
+void Database::FILE_Output_Record()
+{
+    ofstream fou("record.csv");
+
+    for(vector<Record*>::iterator it = List_Apply.begin(); it != List_Apply.end(); it++)
+    {
+        fou
+
+            << (*it)->GetReaderID() << ","
+            << (*it)->GetBookID() << endl;
+        delete (*it);
+    }
+    for(vector<Record*>::iterator it = List_Record.begin(); it != List_Record.end(); it++)
+    {
+        delete (*it);
+    }
+}
+
+Database::~Database()
+{
+    FILE_Output_Book();
+    FILE_Output_User();
+    FILE_Output_Record();
+}
 
 Book* Database::Find_Book_ID(const int ID) const
 {
-    // int count = List_Book.count(ID);
-    // Book* book = List_Book.at(ID);
-    // if(count!=0) return book;
-    // return nullptr;
+    if (List_Book.count(ID)) return List_Book.at(ID);
+    return nullptr;
 }
 
 Book* Database::Find_Book_ISBN(const QString ISBN) const
@@ -219,7 +253,7 @@ void Database::Search_Book(vector<Book*> &List, const QString name, const QStrin
 
 void Database::Add_Book(const QString name, const QString writer, const QString publisher, const QString ISBN, const int total)
 {
-    Book* book = new Book(name, writer, publisher, ISBN, total, total);
+    Book* book = new Book(0, name, writer, publisher, ISBN, total, total);
     List_Book[book->GetID()] = book;
 }
 
@@ -297,7 +331,7 @@ void Database::Search_Reader(vector<Reader*> &List, const QString name, const in
 
 void Database::Add_Reader(const QString name, const QString password, const int max_borrow)
 {
-    Reader *user = new Reader(name, password, max_borrow);
+    Reader *user = new Reader(0, name, password, max_borrow);
     List_Reader[user->GetID()] = user;
 }
 
@@ -324,7 +358,6 @@ bool Database::Check_Reader_Exist(const int id) const
     return false;
 }
 
-// User Part End
 bool Database::Check_Borrow(const User* user, const Book* WanttoReturn) const
 {
     int borrow_or_not = 0;
@@ -337,7 +370,5 @@ bool Database::Check_Borrow(const User* user, const Book* WanttoReturn) const
 
 void Database::Add_Apply(const string typestr, const User* user, const Book* WanttoBorrow)
 {
-    List_Apply.push_back(new Apply(typestr, user->GetID(), WanttoBorrow->GetID()));
+    List_Apply.push_back(new Record(typestr, "UNDEAL", user->GetID(), WanttoBorrow->GetID()));
 }
-
-Database::Database()
