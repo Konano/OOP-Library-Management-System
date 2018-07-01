@@ -20,8 +20,8 @@ public:
             { total = max(total, ID); }
 
     int GetID() const { return ID; }
-    int LentTotal() const { return number-available_number; }
-    int AvailableTotal() const { return available_number; }
+    int LentTotal() const { return number-available_number; }       // 图书被借出的数量
+    int AvailableTotal() const { return available_number; }         // 图书未借出的数量
     QString GetISBN() const { return ISBN; }
     QString GetName() const { return name; }
     QString GetWriter() const { return writer; }

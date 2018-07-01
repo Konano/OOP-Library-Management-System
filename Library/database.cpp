@@ -278,37 +278,11 @@ void Database::Add_Book(const QString name, const QString writer, const QString 
     List_Book[book->GetID()] = book;
 }
 
-// void Database::Delete_Book(const int ID)
-// {
-//     List_Book.erase(ID);
-//     //////////////////////////////////////////////////////////////////////////////
-// }
-
-// void Database::Modify_Book(const int ID, const QString name, const QString writer, const QString publisher, const QString ISBN, const int total)
-// {
-//     List_Book[ID]->Modify(total);
-//     List_Book[ID]->Modifyname(name);
-//     List_Book[ID]->Modifywriter(writer);
-//     List_Book[ID]->Modifypublisher(publisher);
-//     List_Book[ID]->ModifyISBN(ISBN);
-// }
-
 bool Database::Check_Book_ISBN(const QString ISBN) const
 {
     return Check_ISBN.count(ISBN);
 }
 
-// bool Database::Check_Book_Exist(const int id) const
-// {
-//     int bookid = List_Book.count(id);
-//     if(bookid!=0)    return true;
-//     else            return false;
-// }
-
-
-
-// // Book Part (END)
-// // User Part (Start)
 User* Database::Find_User_Name(const QString &name) const
 {
     map<int,User*>::const_iterator iter;
@@ -326,25 +300,6 @@ User* Database::Find_User_ID(const int ID) const
     puts("Fuck");
     return nullptr;
 }
-
-// void Database::Search_Reader(vector<Reader*> &List, const QString name, const int ID) const
-// {
-//     map<int,Reader*>::const_iterator iter;
-//     if(ID == 0)
-//     {
-//         for(iter = List_Reader.begin(); iter != List_Reader.end(); iter++)
-//         {
-//             if(iter->second->GetName() == name)
-//                 List.push_back(iter->second);
-//         }
-//     }
-//     else
-//     {
-//         int count = List_Reader.count(ID);
-//         if(count != 0)
-//             List.push_back(List_Reader.at(ID));
-//     }
-// }
 
 void Database::Add_Reader(const QString name, const QString password, const int max_borrow)
 {
@@ -365,18 +320,6 @@ void Database::Delete_Book(const int ID)
     iter = List_Book.find(ID);
     List_Book.erase(iter);
 }
-
-// void Database::Modify_Reader(const int ID, const QString name, const int max_borrow)
-// {
-//     List_User[ID]->ModifyName(name);
-//     List_Reader[ID]->Modify(max_borrow);
-//     return;
-// }
-
-// bool Database::Check_Reader_Exist(const int id) const
-// {
-//     return List_Reader.count(id);
-// }
 
 bool Database::Check_Borrow(const User* user, const Book* WanttoReturn) const
 {

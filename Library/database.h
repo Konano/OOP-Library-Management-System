@@ -15,8 +15,6 @@
 
 #define FILE_Input_Size 1000
 
-//using namespace std;
-
 class Database
 {
     map<int,User*>		List_User;
@@ -40,8 +38,6 @@ public:
 
     Database();
     ~Database();
-
-    // ======================================= Wait to add
 
     Record* GetApply(const int id) const;
     int GetApplyTotal() const { return (int)List_Apply.size(); }

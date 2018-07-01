@@ -10,4 +10,3 @@ void Book::Modify(const QString &name, const QString &writer, const QString &pub
 	this->ISBN = ISBN;
 	this->number = number;
 }
-

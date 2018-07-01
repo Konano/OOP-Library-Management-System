@@ -35,8 +35,6 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-   // void reshow();
-    //void updateTime();
 signals:
     void isignal(User*);
 
