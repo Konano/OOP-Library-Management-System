@@ -21,8 +21,6 @@
 #include "Record.h"
 #include "database.h"
 
-
-
 namespace Ui {
 class Widget;
 }
