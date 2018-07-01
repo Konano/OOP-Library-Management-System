@@ -199,14 +199,18 @@ void Database::FILE_Output_Record()
 
     for(vector<Record*>::iterator it = List_Apply.begin(); it != List_Apply.end(); it++)
     {
-        fou
-
+        fou << (*it)->GetType() << ","
+            << ((*it)->BoolDeal() ? ((*it)->BoolAccept() ? "ACCEPT" : "REJECT") : "UNDEAL") << ","
             << (*it)->GetReaderID() << ","
             << (*it)->GetBookID() << endl;
         delete (*it);
     }
     for(vector<Record*>::iterator it = List_Record.begin(); it != List_Record.end(); it++)
     {
+        fou << (*it)->GetType() << ","
+            << ((*it)->BoolDeal() ? ((*it)->BoolAccept() ? "ACCEPT" : "REJECT") : "UNDEAL") << ","
+            << (*it)->GetReaderID() << ","
+            << (*it)->GetBookID() << endl;
         delete (*it);
     }
 }

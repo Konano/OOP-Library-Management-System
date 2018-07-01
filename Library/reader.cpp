@@ -7,7 +7,7 @@ void Reader::Borrow()
     this->now_borrow++;
 }
 
-void Reader::GiveBack()
+void Reader::Return()
 {
     this->now_borrow--;
 }

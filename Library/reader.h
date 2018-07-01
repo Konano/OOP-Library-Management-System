@@ -24,9 +24,9 @@ public:
     int MaxBorrow() const { return max_borrow; }
     int CanBorrow() const { return max_borrow - now_borrow; }
 
-    void Borrow();			// 借书
-    void GiveBack();		// 还书
-    void Modify (const int &max_borrow);			// 修改读者信息
+    void Borrow();
+    void Return();
+    void Modify (const int &max_borrow);
 };
 
 

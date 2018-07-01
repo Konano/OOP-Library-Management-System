@@ -27,9 +27,9 @@ public:
        		}
     int GetReaderID() const { return readerID; }
     int GetBookID() const { return bookID; }
-    bool GetDeal() const { return (reject || accept); }
-    bool GetAccept() const { return accept; }
-    bool GetReject() const { return reject; }
+    bool BoolDeal() const { return (reject || accept); }
+    bool BoolAccept() const { return accept; }
+    bool BoolReject() const { return reject; }
     string GetType() const;
 
     void Reject() { reject = true; }
