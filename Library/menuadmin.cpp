@@ -29,7 +29,7 @@ void menuadmin::on_pushButton_41_clicked() //查找書籍
     BookList.clear();
 
     db.Search_Book(BookList, name, writer, publisher, ISBN, 0);
-    ui->tableWidget->clear();
+    ui->tableWidget->clearContents();
     for(int i=0; i<(int)BookList.size(); i++)
     {
         QString id=QString::number(BookList[i]->GetID());

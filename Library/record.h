@@ -12,9 +12,9 @@ class Record
 {
     static int total;
     int ID, readerID, bookID;
-    int type;					// 1:借阅, 2:归还
-    bool reject = false;		// 是否同意
-    bool accept = false;		// 是否拒绝
+    int type;					        // 1:借阅, 2:归还
+    bool reject = false;      // 是否同意
+    bool accept = false;      // 是否拒绝
     // time_t time;
 public:
     Record(const string typestr, const string deal, const int readerID, const int bookID) //, const time_t time
@@ -37,5 +37,3 @@ public:
 };
 
 #endif // RECORD_H
-
-

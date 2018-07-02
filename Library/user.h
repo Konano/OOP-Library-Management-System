@@ -20,11 +20,11 @@ public:
     int GetID() const { return ID; }
     QString GetName() const { return username; }
     QString GetPwd() const { return password; }
-    virtual bool isAdmin() const = 0; // 是否是管理员
-    virtual int CanBorrow() const = 0; // 是否能借书
+    virtual bool isAdmin() const = 0;       // 是否是管理员
+    virtual int CanBorrow() const = 0;      // 是否能借书
 
     void Modify(const QString new_name, const QString new_pwd);
-    bool CheckPassword(const QString &password) const; // 检查密码是否正确
+    bool CheckPassword(const QString &password) const;      // 检查密码是否正确
 };
 
 #endif
